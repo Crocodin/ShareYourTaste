@@ -12,7 +12,7 @@ For a visual representation of how features interact and their use case, see the
 
 ### F1 - Database
 + **Albums & Songs:** all albums & songs are created and updated via database or admin CRUD operations in the app
-
+  
 ### F2 - Authentication
 + **Login:** Users authenticate with their credentials to access the system
 + **Logout:** Users can securely log out of their session
