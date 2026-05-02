@@ -9,7 +9,7 @@ This diagram illustrates the use case in the SYT (Share Your Taste) system.
 
 # Non-functional requirements
 
-### NFR-1 Scalabilit
+### NFR-1 Scalability
 > - The database should handle growth in songs, albums, and user ratings without requiring structural changes.
 ### NFR-2 Usability
 > - The interface must be usable without any prior training
@@ -23,15 +23,11 @@ This diagram illustrates the use case in the SYT (Share Your Taste) system.
 
 # Planification for three iterations
 
-### 1'st iteration:
-> - set up the database; including admin users and Albums & Songs <br>
-> - configure the user hierarchy
-> - configure the autentification part of the application <br>
-> - make a basic view of the app in _Figma_
+### 1'st Iteration:
+- Auth + View + Rate (basic UI + backend)
 
-### 2'nd iteration:
-> - configure crud operation for that application
-> - repos & services
+### 2'nd Iteration:
+- Comments + Profiles
 
-### 3'rd iteration:
-> - configure the GUI
+### 3'rd Iteration:
+- Notifications + Charts + polish

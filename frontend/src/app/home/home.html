@@ -1,0 +1,52 @@
+<div class="page-wrapper">
+
+  <!-- BACKGROUND -->
+  <div class="bg-image"></div>
+  <div class="bg-overlay"></div>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-logo playfair-display-400">Rate Your Taste</div>
+    <div class="topbar-search">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input [(ngModel)]="searchQuery" (keyup.enter)="onSearchInput()" type="text" placeholder="Search songs..." />
+    </div>
+    <div class="topbar-user">
+      <div class="avatar">U</div>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- SONG LIST -->
+    <div class="song-list">
+      @for (song of songs; track song.id) {
+        <div class="song-result">
+          <div class="left">
+            <div class="title">{{ song.songName }}</div>
+            <div class="meta">
+              {{ song.artistName }} | {{ song.albumName }}
+            </div>
+          </div>
+
+          <div class="right">
+            <div class="rating">{{ song.songRating }}</div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="pagination">
+      <button class="pg-btn">⏮</button>
+      <button class="pg-btn active">1</button>
+      <button class="pg-btn">2</button>
+      <button class="pg-btn">3</button>
+      <span class="pg-ellipsis">…</span>
+      <button class="pg-btn">10</button>
+      <button class="pg-btn">⏭</button>
+    </div>
+
+  </div>
+</div>
