@@ -1,0 +1,12 @@
+<config xmlns="http://www.ehcache.org/v3">
+
+    <cache alias="song_page_by_name">
+        <expiry>
+            <ttl unit="minutes">5</ttl>
+        </expiry>
+        <resources>
+            <heap unit="entries">10</heap>
+        </resources>
+    </cache>
+
+</config>

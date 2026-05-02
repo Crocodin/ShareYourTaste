@@ -19,20 +19,45 @@ repositories {
 }
 
 dependencies {
+    // Web
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
+    // Persistence (JPA + Hibernate)
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    // Validation (Jakarta)
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-starter-webmvc")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.2")
-    compileOnly("org.projectlombok:lombok")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    // PostgreSQL Driver
     runtimeOnly("org.postgresql:postgresql")
+
+    // Swagger / OpenAPI
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3")
+
+    // Lombok
+    compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
-    testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
-    testCompileOnly("org.projectlombok:lombok")
+
+    // MapStruct
+    implementation("org.mapstruct:mapstruct:1.5.5.Final")
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
+
+    // Caching (EhCache)
+    implementation("org.ehcache:ehcache:3.10.8") {
+        artifact {
+            classifier = "jakarta"
+        }
+    }
+    implementation("javax.cache:cache-api:1.1.1")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+
+
+    // DevTools (hot reload)
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    // Testing (Spring Boot default)
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testAnnotationProcessor("org.projectlombok:lombok")
 }
 
 tasks.withType<Test> {
