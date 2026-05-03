@@ -15,10 +15,12 @@ public class SongDTO {
 
     @NotNull private String songName;
     private double songRating;
+    private double userRating;
 
     private int artistId;
     private String artistName;
 
     private int albumId;
     private String albumName;
+    private String coverUrl;
 }

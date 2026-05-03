@@ -23,4 +23,7 @@ public class Album {
 
     @Column(name = "album_overall_rating")
     private int albumRating;
+
+    @Column(name = "cover_url")
+    private String coverUrl;
 }

@@ -15,6 +15,7 @@ public class AlbumDTO {
 
     @NotNull private String albumName;
     private int albumRating;
+    private String coverUrl;
 
     private int artistId;
     private String artistName;
