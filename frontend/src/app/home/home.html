@@ -14,14 +14,14 @@
     </div>
 
     <div class="topbar-user">
-      <div class="avatar">U</div>
+      <div class="avatar" (click)="onUserClick()">U</div>
     </div>
   </header>
 
   <div class="content">
     <div class="song-list">
       @for (song of songs; track song.songId) {
-        <div class="song-result">
+        <div class="song-result" (click)="goToSong(song.songId)">
           <div class="song-cover-frame" [style.--cover-url]="'url(' + song.coverUrl + ')'">
             <img class="song-cover" [src]="song.coverUrl" [alt]="song.albumName" />
           </div>

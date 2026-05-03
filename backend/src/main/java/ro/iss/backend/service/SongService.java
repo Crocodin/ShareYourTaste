@@ -66,4 +66,19 @@ public class SongService {
         song.setSongRating(avg);
         songRepository.save(song);
     }
+
+    public SongDTO findById(int songId, int userId) {
+        log.debug("Request to get song : {} for user: {}", songId, userId);
+        Song song = songRepository.getReferenceById(songId);
+        SongDTO songDTO = songMapper.toDTO(song);
+        songRatingRepository.findById(new SongRatingId(userId, songId)).ifPresent(rating -> {
+            songDTO.setUserRating(rating.getRating());
+        });
+        return songDTO;
+    }
+
+    public SongDTO findById(int songId) {
+        log.debug("Request to get song : {}", songId);
+        return songMapper.toDTO(songRepository.getReferenceById(songId));
+    }
 }

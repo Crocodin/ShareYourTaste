@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SearchService } from '../services/search';
 import { DecimalPipe } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Auth } from '../services/auth';
 
 @Component({
@@ -13,8 +14,11 @@ import { Auth } from '../services/auth';
 export class Home {
   searchQuery: string = '';
   searchService: SearchService = inject(SearchService);
-  songs: any[] = [];
   cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+  router: Router = inject(Router);
+  route = inject(ActivatedRoute);
+  songs: any[] = [];
+  auth = inject(Auth)
 
   rowHeight: number = 100; // approximate height of one song card
   pageSize: number = 5;
@@ -66,5 +70,27 @@ export class Home {
     window.addEventListener('resize', () => {
       this.calculatePageSize();
     });
+
+    this.route.queryParamMap.subscribe((params) => {
+      this.searchQuery = params.get('q') || '';
+      if (this.searchQuery.trim()) {
+        this.onSearchInput();
+      }
+    });
+  }
+
+  goToSong(id: number) {
+    this.router.navigate(['/songs', id]);
+  }
+
+  onUserClick() {
+    // if the user is login, show profile or logout option
+    // else, navigate to login page
+    if (this.auth.isLoggedIn()) {
+      // For simplicity, we'll just log out the user on click
+      console.log('Logging in user');
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 }

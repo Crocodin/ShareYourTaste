@@ -1,1 +1,103 @@
-<p>song-detail works!</p>
+@if (song) {
+<div class="page-wrapper">
+  <div class="bg-image" [style.background-image]="'url(' + song.coverUrl + ')'"></div>
+  <div class="bg-overlay"></div>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-logo playfair-display-400">Rate Your Taste</div>
+    <div class="topbar-search">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.3-4.3"/>
+      </svg>
+      <input [(ngModel)]="searchQuery" (keyup.enter)="onSearchInput()" type="text" placeholder="Search songs, artists..." />
+    </div>
+    <div class="topbar-user">
+      <div class="avatar" (click)="onUserClick()">U</div>
+    </div>
+  </header>
+
+  <div class="scroll-area">
+    <div class="content">
+
+      <!-- HERO -->
+      <section class="hero">
+        <div class="cover-wrap">
+          <img class="cover" [src]="song.coverUrl" [alt]="song.songName"/>
+          <div class="cover-glow" [style.background-image]="'url(' + song.coverUrl + ')'"></div>
+        </div>
+
+        <div class="hero-info">
+          <p class="album-label">{{ song.albumName }}</p>
+          <h1 class="song-title">{{ song.songName }}</h1>
+          <p class="artist-name">{{ song.artistName }}</p>
+
+          <div class="divider"></div>
+
+          <div class="meta-row">
+            <div class="meta-block">
+              <span class="meta-label">AVG RATING</span>
+              <span class="meta-value gold">★ {{ song.songRating | number:'1.1-2' }}</span>
+            </div>
+            <div class="meta-block">
+              <span class="meta-label">YOUR RATING</span>
+              <div class="stars">
+                @for (star of [1,2,3,4,5]; track star) {
+                  <span
+                    class="star"
+                    [class.filled]="star <= (song.userRating || 0)"
+                    [class.preview]="star <= (hoveredStar || 0)"
+                    (mouseenter)="hoveredStar = star"
+                    (mouseleave)="hoveredStar = 0"
+                    (click)="rateSong(song, star)">★
+                  </span>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- COMMENTS -->
+      <section class="comments-section">
+        <h2 class="section-title">Discussion</h2>
+
+        <div class="comment-input-wrap">
+          <div class="comment-avatar-sm">U</div>
+          <div class="comment-field">
+            <textarea
+              [(ngModel)]="newComment"
+              placeholder="Share your thoughts on this track..."
+              rows="3">
+            </textarea>
+            <button class="post-btn" (click)="addComment()">Post</button>
+          </div>
+        </div>
+
+        <div class="comment-list">
+          @for (comment of comments; track comment.commentId) {
+            <div class="comment-card">
+              <div class="comment-body">
+                <span class="comment-user">{{ comment.username }}</span>
+                <p class="comment-text">{{ comment.content }}</p>
+              </div>
+            </div>
+          }
+
+          @if (comments.length === 0) {
+            <p class="no-comments">No comments yet. Be the first!</p>
+          }
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+}
+
+@if (!song) {
+  <div class="loading-screen">
+    <div class="spinner"></div>
+  </div>
+}
