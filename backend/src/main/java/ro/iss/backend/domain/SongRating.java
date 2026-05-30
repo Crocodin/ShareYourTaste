@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+
 @Data
 @Entity
 @Table(name = "song_ratings")
@@ -29,5 +32,8 @@ public class SongRating {
 
     @Column(name = "song_rating")
     private Integer rating;
+
+    @Column(name = "created_at", insertable = false, updatable = false)
+    private LocalDateTime createdAt;
 }
 

@@ -15,7 +15,7 @@
     <div class="login-container">
       <div class="login-form">
         <div class="title playfair-display-400">Welcome Back!</div>
-        <div class="subtitle">Login to your account to continue</div>
+        <div class="subtitle">Register a account</div>
 
         <form (ngSubmit)="onSubmit()">
           <div class="form-group">
@@ -40,19 +40,40 @@
               required
               placeholder="Enter your password"
             />
-            <div class="forgot-password">
-              <a href="#">Forgot Password?</a>
-            </div>
           </div>
 
-          <button type="submit">Login</button>
+          <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+              required
+              placeholder="Confirm your password"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              [(ngModel)]="email"
+              name="email"
+              required
+              placeholder="Enter your email"
+            />
+          </div>
+
+          <button type="submit">Register</button>
 
           @if (errorMessage) {
             <p class="error">{{ errorMessage }}</p>
           }
 
           <div class="register-link">
-            Don't have an account? <a href="#">Register here</a>
+            Do you have an account? <a (click)="navigateToLogin()">Login here</a>
           </div>
         </form>
       </div>

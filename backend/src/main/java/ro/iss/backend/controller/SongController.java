@@ -14,6 +14,8 @@ import ro.iss.backend.exception.FailedAuthentication;
 import ro.iss.backend.service.CommentService;
 import ro.iss.backend.service.SongService;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -69,5 +71,11 @@ public class SongController {
             throw new FailedAuthentication("Can't comment on song without authentification");
         }
         commentService.commentOnSong(id, commentDTO, user.getUserId());
+    }
+
+    @GetMapping("/{userId}/activities")
+    public List<SongDTO> findUserRecentActivity(@PathVariable Integer userId) {
+        log.debug("Request to get recent activity for song with id : {}", userId);
+        return songService.findFirstFiveByUserId(userId);
     }
 }

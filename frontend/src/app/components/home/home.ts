@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SearchService } from '../services/search';
+import { SearchService } from '../../services/search';
 import { DecimalPipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Auth } from '../services/auth';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +27,12 @@ export class Home {
   totalPages: number = 0;
 
   onSearchInput(page: number = 0) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { q: this.searchQuery, page },
+      queryParamsHandling: 'merge', // keeps other params you might add later
+    });
+
     this.searchService.searchSongs(this.searchQuery, page, this.pageSize).then((response) => {
       this.songs = response.content;
       this.currentPage = response.number;
@@ -73,8 +79,9 @@ export class Home {
 
     this.route.queryParamMap.subscribe((params) => {
       this.searchQuery = params.get('q') || '';
+      const page = parseInt(params.get('page') || '0');
       if (this.searchQuery.trim()) {
-        this.onSearchInput();
+        this.onSearchInput(page);
       }
     });
   }
@@ -84,13 +91,6 @@ export class Home {
   }
 
   onUserClick() {
-    // if the user is login, show profile or logout option
-    // else, navigate to login page
-    if (this.auth.isLoggedIn()) {
-      // For simplicity, we'll just log out the user on click
-      console.log('Logging in user');
-    } else {
-      this.router.navigate(['/login']);
-    }
+    this.auth.navigateToUserPage();
   }
 }

@@ -13,8 +13,14 @@
       <input [(ngModel)]="searchQuery" (keyup.enter)="onSearchInput()" type="text" placeholder="Search songs..." />
     </div>
 
-    <div class="topbar-user">
-      <div class="avatar" (click)="onUserClick()">U</div>
+    <div class="topbar-user" (click)="onUserClick()">
+      @if (auth.getCurrentUser()?.profilePictureUrl) {
+        <img class="avatar avatar-img" 
+            [src]="auth.getImageUrl(auth.getCurrentUser()?.profilePictureUrl ?? null)" 
+            alt="avatar" />
+      } @else {
+        <div class="avatar">{{ auth.getCurrentUser()?.username?.charAt(0)?.toUpperCase() || 'U' }}</div>
+      }
     </div>
   </header>
 

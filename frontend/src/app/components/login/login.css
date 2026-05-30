@@ -7,7 +7,7 @@
   align-items: center;
 
   overflow: hidden;
-  background: url(./../../../public/backgrounds/login-background.jpg) center/cover no-repeat;
+  background: url(./../../../../public/backgrounds/login-background.jpg) center/cover no-repeat;
 }
 
 /* LEFT SIDE */

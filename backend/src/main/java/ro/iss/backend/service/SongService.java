@@ -16,6 +16,9 @@ import ro.iss.backend.repository.SongRatingRepository;
 import ro.iss.backend.repository.SongRepository;
 import ro.iss.backend.repository.UserRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -27,13 +30,13 @@ public class SongService {
 
     @Cacheable(value = "song_page_by_name", key = "'song - ' + #name + ', '+ #pageable.pageNumber + ', ' + #pageable.pageSize")
     public Page<SongDTO> findByNameOrArtist(String name, Pageable pageable) {
-        log.debug("Request to get songs by name : {} and page: {}", name, pageable);
+        log.debug("Request to get songs by name: {} and page: {}", name, pageable);
         return songRepository.searchByNameOrArtist(name, pageable).map(songMapper::toDTO);
     }
 
     @Cacheable(value = "song_page_by_name", key = "'song - ' + #name + ', '+ #pageable.pageNumber + ', ' + #pageable.pageSize")
     public Page<SongDTO> findByNameOrArtist(String name, Pageable pageable, int userId) {
-        log.debug("Request to get songs by name : {} and page: {} and userId: {}", name, pageable, userId);
+        log.debug("Request to get songs by name: {} and page: {} and userId: {}", name, pageable, userId);
         return songRepository.searchByNameOrArtist(name, pageable).map(song -> {
             SongDTO DTO = songMapper.toDTO(song);
             songRatingRepository.findById(new SongRatingId(userId, song.getSongId())).ifPresent(rating -> {
@@ -45,12 +48,12 @@ public class SongService {
 
     @CacheEvict(value = "song_page_by_name", allEntries = true)
     public void rateSong(Integer songId, Integer userId, Integer rating) {
-        log.debug("Request to rate song : {}", songId);
+        log.debug("Request to rate song: {}", songId);
         SongRatingId ratingId = new SongRatingId(userId, songId);
 
         SongRating songRating = songRatingRepository.findById(ratingId).orElse(new SongRating());
 
-        log.debug("Saving rating for song : {}", songRating);
+        log.debug("Saving rating for song: {}", songRating);
         songRatingRepository.save(
                 SongRating.builder()
                         .id(ratingId)
@@ -68,7 +71,7 @@ public class SongService {
     }
 
     public SongDTO findById(int songId, int userId) {
-        log.debug("Request to get song : {} for user: {}", songId, userId);
+        log.debug("Request to get song: {} for user: {}", songId, userId);
         Song song = songRepository.getReferenceById(songId);
         SongDTO songDTO = songMapper.toDTO(song);
         songRatingRepository.findById(new SongRatingId(userId, songId)).ifPresent(rating -> {
@@ -78,7 +81,16 @@ public class SongService {
     }
 
     public SongDTO findById(int songId) {
-        log.debug("Request to get song : {}", songId);
+        log.debug("Request to get song: {}", songId);
         return songMapper.toDTO(songRepository.getReferenceById(songId));
+    }
+
+    public List<SongDTO> findFirstFiveByUserId(int userId) {
+        log.debug("Request to get song for user: {}", userId);
+        return songRatingRepository.findByUser_UserId(userId).stream().map(songRating -> {
+            SongDTO dto = songMapper.toDTO(songRating.getSong());
+            dto.setUserRating(songRating.getRating());
+            return dto;
+        }).limit(5).toList();
     }
 }

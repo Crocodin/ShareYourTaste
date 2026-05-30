@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SearchService } from '../services/search';
+import { SearchService } from '../../services/search';
 import { FormsModule } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
-import { Auth } from '../services/auth';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-song-detail',
@@ -68,13 +68,6 @@ export class SongDetail {
   }
 
   onUserClick() {
-    // if the user is login, show profile or logout option
-    // else, navigate to login page
-    if (this.auth.isLoggedIn()) {
-      // For simplicity, we'll just log out the user on click
-      console.log('Logging out user');
-    } else {
-      this.router.navigate(['/login']);
-    }
+    this.auth.navigateToUserPage();
   }
 }

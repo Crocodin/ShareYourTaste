@@ -13,6 +13,8 @@ import ro.iss.backend.repository.CommentRepository;
 import ro.iss.backend.repository.SongRepository;
 import ro.iss.backend.repository.UserRepository;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -36,5 +38,11 @@ public class CommentService {
                 .content(commentDTO.getContent())
                 .build()
         );
+    }
+
+    public List<CommentDTO> findFirstFiveByUser(int userId) {
+        log.debug("Request to get comments by userId {}", userId);
+        return commentRepository.findByUser_UserId(userId)
+                .stream().map(commentMapper::toDto).limit(5).toList();
     }
 }
