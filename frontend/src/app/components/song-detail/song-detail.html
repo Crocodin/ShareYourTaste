@@ -1,6 +1,6 @@
 @if (song) {
 <div class="page-wrapper">
-  <div class="bg-image"></div>
+  <div class="bg-image" [style.background-image]="'url(' + song.coverUrl + ')'"></div>
   <div class="bg-overlay"></div>
 
   <!-- TOPBAR -->
